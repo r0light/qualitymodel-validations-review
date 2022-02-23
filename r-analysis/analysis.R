@@ -1,7 +1,7 @@
 library(ggplot2)
 library(tidyr)
 
-literature <- read.csv("initial-literature.csv", sep=";")
+literature <- read.csv("quality-models-literature.csv", sep=";")
 
 # check data types
 str(literature)
@@ -12,7 +12,7 @@ literature$Characteristics <- trimws(literature$Characteristics, which = c("both
 literature$Rationale <- trimws(literature$Rationale, which = c("both"))
 
 # parse contribution type as factor
-contributionFactor <- factor(c("model", "meta-model", "method", "evaluation-method", "taxonomy"))
+contributionFactor <- factor(c("model", "meta-model", "method", "validation-method", "taxonomy"))
 literature$Contribution <- as.list(lapply(strsplit(literature$Contribution, ","), factor, levels=levels(contributionFactor)))
 
 # parse rationale as factor
@@ -31,7 +31,7 @@ literature$Characteristics <- as.list(lapply(strsplit(literature$Characteristics
 # filtering
 ## filter for all entries where a model is presented
 filtered_model <- subset(literature, grepl(match("model", levels(contributionFactor)), Contribution))
-filtered_evaluation_method <- subset(literature, grepl(match("evaluation-method", levels(contributionFactor)), Contribution))
+filtered_evaluation_method <- subset(literature, grepl(match("validation-method", levels(contributionFactor)), Contribution))
 
 filtered <- rbind(filtered_model, filtered_evaluation_method)
 filtered <- filtered[!duplicated(filtered[, c("BibtexKey")]), ]

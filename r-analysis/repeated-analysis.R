@@ -41,23 +41,24 @@ filtered_model <- subset(literature, grepl(match("model", levels(contributionFac
 #  geom_text(stat='count', aes(label=..count..), vjust=1.6, color="white", size=3.5) +
 #  theme_minimal() 
 
+explicitlyValidated <- subset(filtered_model, filtered_model$ExplicitValidation == "yes")
 sprintf("Out of %d models, %d have been explicitly validated.", nrow(filtered_model), sum(filtered_model$ExplicitValidation == "yes"))
 
 # Barplot for rationale used overall
-rationaleData <- data.frame(Rationale=unlist(literature$Rationale))
+rationaleData <- data.frame(Rationale=unlist(filtered_model$Rationale))
 ggplot(data=rationaleData, aes(x=Rationale)) +
   geom_bar(stat="count", width=0.5, fill=rgb(0.26,0.37,0.52)) +
-  geom_text(stat='count', aes(label=..count..), vjust=1.6, color="white", size=4.5) +
+  geom_text(stat='count', aes(label=..count..), position = position_stack(vjust = 0.5), color="white", size=4.5) +
   theme_minimal() + 
   theme(axis.text=element_text(size=14), axis.title=element_text(size=14,face="plain"))
 
 
 # better barplot for rationale
-contributionData <- data.frame(Contribution=unlist(literature$Contribution))
-ggplot(data=contributionData, aes(x=Contribution)) +
-  geom_bar(stat="count", width=0.7, fill="steelblue") +
-  geom_text(stat='count', aes(label=..count..), vjust=1.6, color="white", size=3.5) +
-  theme_minimal()
+#contributionData <- data.frame(Contribution=unlist(literature$Contribution))
+#ggplot(data=contributionData, aes(x=Contribution)) +
+#  geom_bar(stat="count", width=0.7, fill="steelblue") +
+#  geom_text(stat='count', aes(label=..count..), vjust=1.6, color="white", size=3.5) +
+#  theme_minimal()
 
 
 
